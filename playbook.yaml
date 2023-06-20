@@ -1,8 +1,0 @@
-- name: First Playbook
-  hosts: virtualmachines
-  tasks: 
-  - name: Ping 
-    ansible.builtin.ping:
-  - name: Print msg
-    ansible.builtin.debug: 
-      msg: working :)
