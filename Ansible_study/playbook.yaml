@@ -1,0 +1,97 @@
+- name: Install Docker and Docker Compose
+  hosts: all
+  become: true
+  tasks:
+    - name: Install Docker dependencies (Debian)
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - gnupg
+          - lsb-release
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Add Docker GPG key (Debian)
+      apt_key:
+        url: "https://download.docker.com/linux/{{ mydistribution }}/gpg"
+        state: present
+      vars:
+        mydistribution: "{{ 'debian' if ansible_distribution == 'Debian' else ansible_distribution | lower }}"
+      when: ansible_os_family == "Debian"
+
+    - name: Add Docker repository (Debian)
+      apt_repository:
+        repo: "deb [arch=amd64] https://download.docker.com/linux/{{ mydistribution }} {{ ansible_distribution_release }} stable"
+        state: present
+      vars:
+        mydistribution: "{{ 'debian' if ansible_distribution == 'Debian' else ansible_distribution | lower }}"
+      when: ansible_os_family == "Debian"
+
+    - name: Install Docker (Debian)
+      apt:
+        name: docker-ce
+        state: present
+      when: ansible_os_family == "Debian"
+
+    - name: Install Docker dependencies (AlmaLinux)
+      yum:
+        name:
+          - dnf-plugins-core
+          - yum-utils
+        state: present
+      when: ansible_os_family == "RedHat"
+
+    - name: Add signing key
+      rpm_key:
+        key: "https://download.docker.com/linux/centos/gpg"
+        state: present
+      vars:
+        mydistribution: "{{ 'rhel' if ansible_distribution == 'Red Hat Enterprise Linux' else ansible_distribution | lower }}"
+      when: ansible_os_family == "RedHat"
+
+    - name: Add repository into repo.d list
+      yum_repository:
+        name: docker
+        description: Docker CE Repository
+        baseurl: "https://download.docker.com/linux/centos/$releasever/$basearch/stable"
+        enabled: true
+        gpgcheck: true
+        gpgkey: "https://download.docker.com/linux/centos/gpg"
+      vars:
+        mydistribution: "{{ 'rhel' if ansible_distribution == 'Red Hat Enterprise Linux' else ansible_distribution | lower }}"
+      when: ansible_os_family == "RedHat"
+
+    - name: Install Docker (AlmaLinux)
+      yum:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+        update_cache: true
+      when: ansible_os_family == "RedHat"
+
+    - name: Install Docker Compose
+      command: bash -c 'curl -sSL https://github.com/docker/compose/releases/latest/download/docker-compose-Linux-x86_64 -o /usr/local/bin/docker-compose && chmod +x /usr/local/bin/docker-compose'
+      
+- name: Install Portainer Container
+  hosts: debian_hosts
+  become: true
+  tasks:
+    - name: Create Portainer volume
+      ansible.builtin.file:
+        path: /opt/portainer
+        state: directory
+
+    - name: Run Portainer container
+      community.docker.docker_container:
+        name: portainer
+        image: portainer/portainer-ce
+        restart_policy: unless-stopped
+        ports:
+          - "9000:9000"
+        volumes:
+          - /var/run/docker.sock:/var/run/docker.sock
+          - /opt/portainer:/data
