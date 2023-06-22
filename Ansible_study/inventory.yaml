@@ -1,6 +1,8 @@
 virtualmachines:
   hosts:
-    almalinux01:
-      ansible_host: 192.168.190.133
-    debian01:
-      ansible_host: 192.168.100.168
+    debian:
+      ansible_host: 192.168.100.197
+    rocky:
+      ansible_host: 192.168.100.102
+    slackware:
+      ansible_host: 192.168.100.127
