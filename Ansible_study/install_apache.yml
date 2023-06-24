@@ -1,0 +1,22 @@
+---
+- hosts: debian
+  become: true
+  tasks:
+  - name: install apache2 and php packages (debian)
+    apt:
+      name:
+        - apache2 
+        - libapache2-mod-php
+      state: latest
+      update_cache: yes
+- hosts: rocky
+  become: true
+  tasks:
+  - name: install apache and php packages (rocky/rhel)
+    dnf:
+      name: 
+        - httpd
+        - php
+      state: latest
+
+

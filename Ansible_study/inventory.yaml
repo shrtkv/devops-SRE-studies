@@ -3,6 +3,6 @@ virtualmachines:
     debian:
       ansible_host: 192.168.100.197
     rocky:
-      ansible_host: 192.168.100.102
+      ansible_host: 192.168.100.101
     slackware:
       ansible_host: 192.168.100.127
