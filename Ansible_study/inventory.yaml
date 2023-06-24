@@ -1,8 +1,14 @@
 virtualmachines:
   hosts:
     debian:
-      ansible_host: 192.168.100.197
+      ansible_host: 192.168.100.197 
+      apache_package: apache2
+      php_package: libapache2-mod-php
     rocky:
       ansible_host: 192.168.100.101
+      apache_package: httpd
+      php_package: php
     slackware:
       ansible_host: 192.168.100.127
+      apache_package: CHANGEME
+      php_package: CHANGEME
