@@ -12,9 +12,13 @@ db_servers:
   hosts:
     rocky2:
       ansible_host: 192.168.100.160
-another_role:
+workstations:
   hosts:
-    slackware:
-      ansible_host: 192.168.100.127
-      apache_package: CHANGEME
-      php_package: CHANGEME
+    debian2:
+      ansible_host: 192.168.100.184
+    ubuntusrv:
+      ansible_host: 192.168.100.152
+#    slackware:
+#      ansible_host: 192.168.100.127
+      
+

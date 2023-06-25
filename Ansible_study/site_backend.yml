@@ -2,12 +2,12 @@
 - hosts: all
   become: true
   pre_tasks:
-  - name: update Debian (apt)
+  - name: update Debian and Ubuntuu server (apt)
     tags: always
     apt:
       update_cache: yes
       upgrade: dist
-    when: ansible_distribution == "Debian"
+    when: ansible_distribution in ["Debian", "Ubuntu"]
   - name: update Rocky (dnf)
     tags: always, update
     dnf:
@@ -24,6 +24,27 @@
         - "{{ apache_package }}"
         - "{{ php_package }}"
       state: latest
+  - name: change default e-mail address for admin
+    tags: apache, rocky, httpd, email
+    lineinfile:
+      path: /etc/httpd/conf/httpd.conf
+      regexp: '^ServerAdmin'
+      line: ServerAdmin somebody@test.net
+    when: ansible_distribution == "Rocky"
+    register: httpd
+  - name: start httpd (rocky)
+    tags: apache, rocky, httpd
+    service:
+      name: httpd 
+      state: started 
+      enabled: yes
+    when: ansible_distribution == "Rocky"
+  - name: restart httpd (rocky)
+    tags: apache, rocky, httpd
+    service:
+      name: httpd
+      state: restarted
+    when: httpd.changed
   - name: copy default html
     tags: apache, apache2, httpd
     copy:
@@ -40,3 +61,17 @@
     package:
       name: mariadb
       state: latest
+- hosts: workstations
+  become: true
+  tasks:
+  - name: install unzip
+    package:
+      name: unzip
+  - name: install terraform
+    unarchive:
+      src: https://releases.hashicorp.com/terraform/1.5.1/terraform_1.5.1_linux_amd64.zip
+      dest: /usr/local/bin
+      remote_src: yes
+      mode: 0775
+      owner: root
+      group: root
