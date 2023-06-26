@@ -6,5 +6,5 @@
 - 10.0.0.3:  Reserved by AWS for future use
 - 10.0.0.255: Network broadcast addr. Broadcast is not supported in a VPC, therefore this addr is reserved
 
-[Subnetting](Garden-notes/subnetting.md)
+[Subnetting](subnetting.md)
 ##  
