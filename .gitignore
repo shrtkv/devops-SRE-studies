@@ -36,6 +36,8 @@ override.tf.json
 .terraformrc
 terraform.rc
 
+# forgotem .pem keys
+*.pem
 
 ####
 
