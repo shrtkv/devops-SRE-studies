@@ -5,49 +5,36 @@ terraform {
       version = "~> 4.0"
     }
   }
-
-  # Uncomment the following block when you are ready to use the S3 backend
-  # backend "s3" {
-  #   bucket         = "var.state_bucket"
-  #   key            = "var.terraform_state_key"
-  #   region         = "sa-east-1"
-  #   dynamodb_table = "var.dynamodb_lock_table"
-  #   encrypt        = true
-  # }
+# backend "s3" {
+#   bucket         = "var.state_bucket"
+#   key            = "var.terraform_state_key"
+#   region         = "sa-east-1"
+#   dynamodb_table = "var.dynamodb_lock_table"
+#   encrypt        = true
+# }
 }
-
 # Variables
 variable "aws_region" {
   description = "AWS region for the EC2 instance"
   type        = string
   default     = ""
 }
-
 variable "aws_access_key" {
   description = "AWS access key"
   type        = string
   default     = ""
 }
-
 variable "aws_secret_key" {
   description = "AWS secret key"
   type        = string
   default     = ""
 }
-
 variable "ami_id" {
   description = "AMI ID for the EC2 instance"
   type        = string
   default     = ""
 }
-
-#variable "key_pair" {
-#  description = "Key pair for the EC2 instance"
-#  type        = string
-#  default     = ""
-#}
-
-# Configure the AWS Provider
+#
 provider "aws" {
   region     = var.aws_region
   access_key = var.aws_access_key
@@ -93,13 +80,13 @@ resource "aws_security_group" "allow_web" {
   name        = "allow_web"
   description = "Allow web traffic"
   vpc_id      = aws_vpc.prod-vpc.id
-
+  # setting ingress rules
   ingress {
     description      = "HTTPS"
     from_port        = 443
     to_port          = 443
     protocol         = "tcp"
-    cidr_blocks      = ["191.177.183.42/32"] # 0.0.0.0/0 opens to the internet
+    cidr_blocks      = ["0.0.0.0/0"]
     # ipv6_cidr_blocks = [aws_vpc.prod-vpc.ipv6_cidr_block]
   }
   ingress {
@@ -107,7 +94,7 @@ resource "aws_security_group" "allow_web" {
     from_port        = 80
     to_port          = 80
     protocol         = "tcp"
-    cidr_blocks      = ["191.177.183.42/32"] # 0.0.0.0/0 opens to the internet
+    cidr_blocks      = ["0.0.0.0/0"]
     #  ipv6_cidr_blocks = [aws_vpc.prod-vpc.ipv6_cidr_block]
   }
   ingress {
@@ -115,9 +102,10 @@ resource "aws_security_group" "allow_web" {
     from_port        = 22
     to_port          = 22
     protocol         = "tcp"
-    cidr_blocks      = ["191.177.183.42/32"] # 0.0.0.0/0 opens to the internet
+    cidr_blocks      = ["0.0.0.0/0"]
     # ipv6_cidr_blocks = [aws_vpc.prod-vpc.ipv6_cidr_block]
   }
+  # setting egress rules
   egress {
     from_port        = 0
     to_port          = 0
