@@ -123,7 +123,7 @@ resource "aws_instance" "first-terraform-server" {
               sudo apt update -y
               sudo apt install apache2 -y
               sudo systemctl start apache2
-              sudo bash -c "echo your very first webserver > /var/www/html/index.html"
+              sudo bash -c "echo ela é uma pipoquinha pequena > /var/www/html/index.html"
               EOF
   tags = {
     Name = "web-server"
