@@ -1,0 +1,5 @@
+FROM alpine:3.18.4
+RUN apk update && apk add --no-cache --quiet nginx && rm /etc/nginx/http.d/default.conf 
+COPY custom-default-server.conf /etc/nginx/http.d/default.conf
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
