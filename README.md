@@ -1,6 +1,6 @@
 # DevOps/SRE Study Repository
 
-This repository serves as a collection of my studies and projects related to DevOps and Site Reliability Engineering (SRE), with a focus on GitOps principles and tools such as Argo CD. The repository covers essential DevOps and SRE tools and technologies including Ansible, Terraform, Docker, and Kubernetes, along with cloud services like AWS. Additionally, it explores concepts partially related to the intensive training [PICK from LinuxTips](https://www.linuxtips.io/pick).
+This repository serves as a collection of my studies and projects related to DevOps and Site Reliability Engineering (SRE), with a focus on GitOps principles and tools such as Argo CD. The repository covers essential DevOps and SRE tools and technologies including Ansible, Terraform, Docker, and Kubernetes, along with cloud services like AWS. Additionally, it explores concepts partially related to the intensive training <a href="https://www.linuxtips.io/pick" target="_blank">PICK from LinuxTips</a>.
 
 ## Table of Contents
 
