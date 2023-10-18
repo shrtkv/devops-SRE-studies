@@ -1,0 +1,9 @@
+FROM golang:1.18 as build
+WORKDIR /app
+COPY hello.go ./
+RUN go mod init hello
+RUN go build -o /app/hello
+
+FROM alpine:3.15.9
+COPY --from=build /app/hello /app/hello
+CMD ["/app/hello"]
