@@ -23,3 +23,5 @@ Policyfile.lock.json
 
 .idea/
 
+#server
+chef-starter.zip
