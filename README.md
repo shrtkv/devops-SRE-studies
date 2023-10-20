@@ -33,10 +33,6 @@ This repository is aimed at documenting my learning journey in the field of DevO
 
 (???)
 
-## Getting Started
-
-To get started with any of the projects or technologies covered in this repository, follow the instructions provided in the respective project directories.
-
 ## License
 
 This repository is licensed under the [MIT License](LICENSE), which means you are free to use the code in this repository for your projects. Please refer to the license file for more details.
