@@ -23,6 +23,11 @@ This repository is aimed at documenting my learning journey in the field of DevO
 - [Kubernetes](https://kubernetes.io/)
 - [Argo CD](https://argoproj.github.io/argo-cd/)
 - [Amazon Web Services (AWS)](https://aws.amazon.com/)
+- [Chief](#)
+- [Puppet](#)
+- [Ruby](#)
+- [Golang](#)
+- [Python](#)
 
 
 ## Getting Started
