@@ -1,0 +1,15 @@
+FROM alpine:latest
+
+RUN apk update && \
+    apk add --no-cache \
+        git \
+        python3 \
+        py3-pip \
+        redis
+COPY . /giropops-senhas
+WORKDIR /giropops-senhas/
+RUN pip3 install --no-cache-dir -r requirements.txt
+CMD ["redis-server"]
+ENV REDIS_HOST=192.168.100.152
+EXPOSE 5555
+CMD ["flask", "run", "--host=0.0.0.0"]
