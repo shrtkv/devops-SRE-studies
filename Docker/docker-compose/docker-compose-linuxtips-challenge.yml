@@ -1,0 +1,39 @@
+version: '3'
+services:
+  giropops-senhas:
+    image: linuxtips/giropops-senhas
+    ports: 
+      - "5000:5000"
+    networks:
+      - app_giropops
+    environment:
+      REDIS_HOST: redis
+    volumes:
+      - type: volume
+        source: strigus 
+        target: /strigus
+    depends_on:
+      - redis
+    labels:
+      com.docker.description: "Giropops"
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+        delay: 60s
+      resources: 
+        reservations:
+          cpus: '0.1'
+          memory: 64M
+  redis:
+    image: redis
+    command: redis-server 
+    networks:
+      - app_giropops
+    volumes:
+      - strigus:/strigus 
+networks:
+  app_giropops:
+    driver: bridge
+volumes:
+  strigus:  
+    driver: local
