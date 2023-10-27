@@ -1,31 +1,27 @@
-# Linux Proficiency Test 
+# XFS Partitioning Script
 
-In order to show your Linux proficiency, please execute the following task:
-**Write a shell script that will create a partition and format a disk in Linux.**
+This Bash script simplifies the process of partitioning an attached volume as XFS and mounting it on a specified mount point. It provides an efficient way to perform these operations, including partitioning, formatting, mounting, and updating `/etc/fstab`.
 
-## Method
+## Usage
 
-On an EC2 on AWS or VM on GCP (Feel free to choose between these 2 providers), you must attach a secondary disk to the virtual machine and write a script that:
+1. Run the script by executing it in your terminal:
 
-● Create a linux partition
-● Format this partition in xfs file-system type
+   ```bash
+   ./xfs_partition.sh
 
-## Measure
+2. The script will prompt you to provide the following information:
 
-**Push your script into a public repository.** 
+- The device you want to partition as XFS (default: /dev/sdb).
+- The mount point for the new XFS partition (default: /mnt/xfs).
 
-Anyone should be able to:
+3. The script will perform the following tasks:
 
-1\. `git clone` your codebase.
+- Partition the selected device as XFS.
+- Determine the Linux distribution and install necessary packages using `apt` or `yum`.
+- Format the partition as XFS.
+- Create the specified mount point and mount the XFS partition.
+- Update `/etc/fstab` to ensure the partition is mounted at boot.
 
-2\. In a virtual machine on one of the chosen cloud providers, run this script on Linux.
+Upon successful execution, the script will confirm that the device has been partitioned as XFS and provide the access path.
 
-3\. The result should be a partition ready to be mounted in a Linux O.S.
-
-### Obs:
-
-● The Script only needs to contain the commands necessary to perform these actions,however, feel free to go through other mount options in the OS.
-
-● Use resources in Free-Tier.
-
-● The virtual machine where this script will be used, will only have the root disk and the secondary attached disk without any formation.
+**Note:** Ensure you have a backup of your data before running this script, as it involves partitioning and formatting a device.
