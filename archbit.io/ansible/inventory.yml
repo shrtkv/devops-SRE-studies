@@ -1,0 +1,6 @@
+webservers:
+  hosts:
+    debian:
+      ansible_host: chernob@192.168.100.197 
+ #   rocky:
+ #     ansible_host: chernob@192.168.100.101

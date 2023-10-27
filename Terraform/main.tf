@@ -5,13 +5,7 @@ terraform {
       version = "~> 4.0"
     }
   }
-  # backend "s3" {
-  #   bucket         = "var.state_bucket"
-  #   key            = "var.terraform_state_key"
-  #   region         = "sa-east-1"
-  #   dynamodb_table = "var.dynamodb_lock_table"
-  #   encrypt        = true
-  # }
+
 }
 
 provider "aws" {

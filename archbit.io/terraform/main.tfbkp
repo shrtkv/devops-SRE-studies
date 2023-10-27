@@ -1,0 +1,40 @@
+terraform {
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 4.0"
+    }
+  }
+}
+provider "aws" {
+  region = var.aws_region
+}
+resource "aws_instance" "EC2" {
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  key_name      = var.aws_access_key
+  iam_instance_profile = var.ami_id
+}
+resource "aws_s3_bucket" "S3B" {
+  bucket = var.s3_bucket_name
+  #acl    = "private"
+}
+resource "aws_iam_policy" "s3_access" {
+  name = "s3_access_policy"
+
+  description = "Allow EC2 access to S3"
+  
+  policy = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Action = ["s3:ListBucket", "s3:GetObject"],
+        Effect = "Allow",
+        Resource = [
+          aws_s3_bucket.S3B.arn,
+          "${aws_s3_bucket.S3B.arn}/*",
+        ]
+      }
+    ]
+  })
+}

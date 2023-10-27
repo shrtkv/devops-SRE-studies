@@ -1,0 +1,6 @@
+webservers:
+  hosts:
+    debian:
+      ansible_host: IP_ADDRESS 
+      
+
