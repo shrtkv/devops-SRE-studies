@@ -7,36 +7,34 @@
   tasks:
     - name: Distribution
       debug: msg="{{ ansible_distribution }}{{ ansible_distribution_version }}"
+    
     - name: Update package cache and upgrade system
       apt:
         update_cache: yes
         upgrade: dist
-    - name: Install required packages (gnupg and curl)
+    
+    - name: Install required packages (gnupg, curl, and redis-server)
       apt:
         name:
           - gnupg
           - curl
+          - redis-server 
         state: present
         update_cache: yes
+
     - name: Download and install MongoDB GPG key
       shell: curl -fsSL https://pgp.mongodb.com/server-7.0.asc | sudo gpg -o /usr/share/keyrings/mongodb-server-7.0.gpg --dearmor
       args:
         warn: false
+
     - name: Add MongoDB APT repository
       apt_repository:
         repo: 'deb [ signed-by=/usr/share/keyrings/mongodb-server-7.0.gpg ] http://repo.mongodb.org/apt/debian bullseye/mongodb-org/7.0 main'
         state: present
+    
     - name: Install Mongodb-org server
       package:
         name:
           - "mongodb-org-server"  
         state: latest
         update_cache: yes
-    - name: Install Redis server
-      package:
-        name:
-          - "redis-server" 
-        state: latest
-        update_cache: yes
-    
-
