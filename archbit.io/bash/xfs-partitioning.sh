@@ -1,6 +1,7 @@
 #!/bin/bash
 
 function trap_ctrlc() {
+  echo " "
   echo "Interrupted. Exiting..."
   exit 2
 }
