@@ -9,6 +9,10 @@ Feel free to explore and use the Dockerfile for your Docker image customization.
 
 [Jump to Building a Personal Image](#building-a-personal-image)
 
+## Verification Key 
+
+ ```https://github.com/shrtkv/devops-SRE-studies/blob/master/archbit.io/docker/verification-key.pub```
+
 
 ## Running the Image from Docker Hub
 
@@ -32,6 +36,7 @@ Feel free to explore and use the Dockerfile for your Docker image customization.
 You can set a custom health check URL for your container using the URLCHECK environment variable. This URL will be used for health checking purposes. To declare the URL, include the -e option when running the container:
 
      ```docker run -d -p 8080:80 -e URLCHECK="https://example.com/health" shrtkv/nginx-single-html:devops-jr-challenge```
+
    
    By default, it checks http://localhost:80.
 
