@@ -6,10 +6,13 @@ It was created as part of a DevOps Junior challenge.
 
 ## Usage
 
+Before running the script, please make sure it's executable. You can do this by running the following command in your terminal: 
+
+   ```bash chmod +x xfs_partition.sh```
+   
 1. Run the script by executing it in your terminal:
 
-   ```bash
-   ./xfs_partition.sh
+   ```bash ./xfs_partition.sh```
 
 2. The script will prompt you to provide the following information:
 
