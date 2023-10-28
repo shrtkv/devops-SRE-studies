@@ -48,7 +48,7 @@ You can set a custom health check URL for your container using the URLCHECK envi
    
     Then
 
-     ```docker run -d -p 8080:80 -e URLCHECK="optional url" my-custom-html-container```
+     ```docker run -d -p 8080:80 -e URLCHECK="https://example.com/health" my-custom-html-container```
 
 This will build the container using a HTML file named "mycustom.html" as the index.html. 
 
