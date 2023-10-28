@@ -9,6 +9,9 @@ Feel free to explore and use the Dockerfile for your Docker image customization.
 
 [GitHub Repository](https://github.com/shrtkv/devops-SRE-studies/tree/master/archbit.io/docker)
 
+[Jump to Building a Personal Image](#building-a-personal-image)
+
+
 ## Running the Image from Docker Hub
 
 1. Pull the Image
@@ -35,7 +38,9 @@ You can set a custom health check URL for your container using the URLCHECK envi
    By default, it checks http://localhost:80.
 
 
-## Building a Personal Image from GitHub
+
+
+## Building a Personal Image
 
 1. Clone the GitHub Repository
    
