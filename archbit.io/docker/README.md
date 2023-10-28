@@ -7,8 +7,6 @@ This Docker image is based on Alpine Linux and serves a single static HTML page 
 
 Feel free to explore and use the Dockerfile for your Docker image customization. The repository contains additional resources and configurations for your convenience. It was created as part of a DevOps Junior challenge.
 
-[GitHub Repository](https://github.com/shrtkv/devops-SRE-studies/tree/master/archbit.io/docker)
-
 [Jump to Building a Personal Image](#building-a-personal-image)
 
 
