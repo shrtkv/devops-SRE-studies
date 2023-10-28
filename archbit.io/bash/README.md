@@ -2,6 +2,8 @@
 
 This Bash script simplifies the process of partitioning an attached volume as XFS and mounting it on a specified mount point. It provides an efficient way to perform these operations, including partitioning, formatting, mounting, and updating `/etc/fstab`.
 
+It was created as part of a DevOps Junior challenge.
+
 ## Usage
 
 1. Run the script by executing it in your terminal:
@@ -23,4 +25,6 @@ This Bash script simplifies the process of partitioning an attached volume as XF
    - Update `/etc/fstab` to ensure the partition is mounted at boot.
 
 Upon successful execution, the script will confirm that the device has been partitioned as XFS and provide the access path.
+
+
 
