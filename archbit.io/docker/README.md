@@ -1,6 +1,7 @@
 # NGINX SINGLE HTML - DevOps Jr Challenge
 
-This Docker image is based on Alpine Linux and serves a single static HTML page (index.html) using the Nginx web server. It's a lightweight, signed, CVES-free minimalistic container, perfect for serving static web content.
+This Docker image is based on Alpine Linux and serves a single static HTML page (index.html) using the Nginx web server. 
+It's a lightweight, signed, CVES-free minimalistic container, perfect for serving static web content.
 
 [Dockerhub Image Repository](https://hub.docker.com/repository/docker/shrtkv/nginx-single-html/)
 
