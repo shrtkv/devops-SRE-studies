@@ -1,12 +1,11 @@
-FROM ubuntu:18.04 as build
-RUN apt-get update && apt-get install -y nginx && rm -rf /var/lib/apt/lists/*
-COPY index.html /var/www/html
-WORKDIR /var/www/html
-ENV APP_VERSION 1.0.0
-
-FROM alpine:3.14
-RUN apk --no-cache add nginx
+FROM nginx:1-alpine-slim
+RUN apk --no-cache add curl
 EXPOSE 80
-COPY --from=build /var/www/html /var/www/html
+# COPY default.conf /etc/nginx/conf.d/
+ARG HTML="index.html"
+ENV URLCHECK="localhost:80"
+COPY $HTML /usr/share/nginx/html/index.html
+HEALTHCHECK --interval=15s --timeout=2s \ 
+   CMD curl --fail $URLCHECK || exit 1
 ENTRYPOINT ["nginx"]
 CMD ["-g", "daemon off;"]
