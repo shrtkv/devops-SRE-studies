@@ -3,11 +3,13 @@ variable "aws_region" {
   type        = string
   default     = "sa-east-1"
 }
+
 variable "s3_bucket_name" {
   description = "S3 bucket name"
   type        = string
   default     = "bucket-s3-shrtkv"
 }
+
 variable "aws_profile" {
   description = "Name of the AWS CLI profile to use"
   type        = string

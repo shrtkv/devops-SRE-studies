@@ -63,7 +63,6 @@ resource "aws_iam_policy" "s3_list_policy" {
   })
 }
 
-
 resource "aws_iam_role_policy_attachment" "ec2_s3_access_policy_attachment" {
   policy_arn = aws_iam_policy.s3_list_policy.arn
   role       = aws_iam_role.ec2_s3_access_role.name
