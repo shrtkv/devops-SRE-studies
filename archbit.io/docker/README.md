@@ -1,13 +1,18 @@
 # NGINX SINGLE HTML - DevOps Jr Challenge
 
-This Docker image is based on Alpine Linux and serves a single static HTML page (index.html) using the Nginx web server. It's a lightweight, signed, CVES-free minimalistic container, perfect for serving static web content.
+This Docker image is based on Alpine Linux and serves a single static HTML page (index.html) using the Nginx web server. 
+It's a lightweight, signed, CVES-free minimalistic container, perfect for serving static web content.
 
 [Dockerhub Image Repository](https://hub.docker.com/repository/docker/shrtkv/nginx-single-html/)
 
 
 Feel free to explore and use the Dockerfile for your Docker image customization. The repository contains additional resources and configurations for your convenience. It was created as part of a DevOps Junior challenge.
 
-[Jump to Building a Personal Image](#building-a-personal-image)
+[Jump to "Building a Personal Image"](#building-a-personal-image)
+
+## Verification Key 
+
+ ```https://github.com/shrtkv/devops-SRE-studies/blob/master/archbit.io/docker/verification-key.pub```
 
 
 ## Running the Image from Docker Hub
@@ -32,6 +37,7 @@ Feel free to explore and use the Dockerfile for your Docker image customization.
 You can set a custom health check URL for your container using the URLCHECK environment variable. This URL will be used for health checking purposes. To declare the URL, include the -e option when running the container:
 
      ```docker run -d -p 8080:80 -e URLCHECK="https://example.com/health" shrtkv/nginx-single-html:devops-jr-challenge```
+
    
    By default, it checks http://localhost:80.
 

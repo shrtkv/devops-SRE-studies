@@ -2,7 +2,7 @@
 
 ## Overview
 
-The "archbit.io playbook" is an Ansible playbook designed to automate the installation of MongoDB and Redis, while also providing a concise distribution overview.
+The "archbit.io playbook" is an Ansible playbook designed to automate the installation of MongoDB and Redis. It was created as part of a DevOps Junior challenge.
 
 ## Prerequisites
 
