@@ -6,95 +6,106 @@ terraform {
     }
   }
 }
+
 provider "aws" {
-  region    = var.aws_region
+  region = var.aws_region
   profile   = var.aws_profile
 }
-resource "aws_instance" "my_instance" {
-  ami           = var.ami_id
-  instance_type = var.instance_type
-  subnet_id     = var.subnet_id
-  key_name      = var.key_name
-  user_data     = <<-EOF
-    #!/bin/bash
-    apt-get update && apt-get install -y awscli
-    
-  EOF
 
-  vpc_security_group_ids = [aws_security_group.ssh_security_group.id]
-  iam_instance_profile = aws_iam_instance_profile.ec2_s3_instance_profile.name
-  
+resource "aws_s3_bucket" "bucket" {
+  bucket = var.s3_bucket_name 
 }
-resource "aws_s3_bucket" "devopsjrchallenge_bucket" {
-  bucket = var.s3_bucket_name
-}
-resource "aws_iam_role" "ec2_s3_role" {
-  name = "ec2_s3_role"
+
+resource "aws_iam_role" "ec2_s3_access_role" {
+  name = "EC2S3AccessRole"
 
   assume_role_policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
         Action = "sts:AssumeRole",
-        Effect = "Allow",
         Principal = {
           Service = "ec2.amazonaws.com"
-        }
+        },
+        Effect = "Allow",
+        Sid    = ""
       }
     ]
   })
 }
-resource "aws_iam_instance_profile" "ec2_s3_instance_profile" {
-  name = "ec2_s3_instance_profile" 
-  role = aws_iam_role.ec2_s3_role.name
-}
-resource "aws_iam_policy" "s3_policy" {
-  name        = "s3_access_policy"
-  description = "Allow EC2 to access S3 bucket"
+
+resource "aws_iam_policy" "s3_list_policy" {
+  name        = "S3ListPolicy"
+  description = "Allows listing S3 buckets and managing objects"
 
   policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
+        Effect = "Allow",
         Action = [
+          "s3:ListAllMyBuckets",
+          "s3:GetBucketLocation"
+        ],
+        Resource = "*"
+      },
+      {
+        Effect   = "Allow",
+        Action   = [
           "s3:ListBucket",
           "s3:GetObject",
           "s3:PutObject",
           "s3:DeleteObject"
         ],
-        Effect   = "Allow",
-        Resource = "arn:aws:s3:::${var.s3_bucket_name}/*" 
+        Resource = "${aws_s3_bucket.bucket.arn}*"  # Grant permissions to all objects in the bucket
       }
     ]
   })
 }
-resource "aws_iam_role_policy_attachment" "s3_policy_attachment" {
-  policy_arn = aws_iam_policy.s3_policy.arn
-  role       = aws_iam_role.ec2_s3_role.name
+
+
+resource "aws_iam_role_policy_attachment" "ec2_s3_access_policy_attachment" {
+  policy_arn = aws_iam_policy.s3_list_policy.arn
+  role       = aws_iam_role.ec2_s3_access_role.name
 }
 
+resource "aws_iam_instance_profile" "ec2_s3_access_profile" {
+  name = "EC2S3AccessProfile"
+  role = aws_iam_role.ec2_s3_access_role.name
+}
 
-resource "aws_security_group" "ssh_security_group" {
-name        = "ssh_security_group"
-description = "SSH inbound / All outbound"
-vpc_id      = var.vpc_id
-
+resource "aws_security_group" "allow_ssh" {
+  name        = "allow_ssh"
+  description = "Allow SSH inbound traffic"
   ingress {
-    description = "SSH"
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  
+    cidr_blocks = ["0.0.0.0/0"] # Not recommended for production, restrict to your IP
   }
+
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1"           
-    cidr_blocks = ["0.0.0.0/0"] 
-  }
-
-  tags = {
-    Name = "devops-jr-challenge"
+    protocol    = "-1"
+    cidr_blocks = ["0.0.0.0/0"]
   }
 }
 
+resource "aws_instance" "ec2_instance" {
+  ami                    = var.ami_id 
+  instance_type          = var.instance_type
+  key_name               = var.key_name    
+  iam_instance_profile   = aws_iam_instance_profile.ec2_s3_access_profile.name
+  security_groups = var.security_group_id != "" ? [var.security_group_id] : [aws_security_group.allow_ssh.name]
+  associate_public_ip_address = true
+  user_data     = <<-EOF
+    #!/bin/bash
+    sudo apt-get update
+    sudo apt-get install -y awscli 
+
+  EOF
+  tags = {
+    Name = "MyEC2Instance"
+  }
+}
