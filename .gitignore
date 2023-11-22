@@ -39,6 +39,7 @@ terraform.rc
 
 # forgotem .pem keys
 *.pem
+*.key
 
 ####
 

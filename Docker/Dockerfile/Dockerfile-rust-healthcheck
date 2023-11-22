@@ -1,0 +1,19 @@
+FROM rust:1.55 as build
+WORKDIR /app
+COPY /health_check/. .
+RUN apk update && apk add --no-cache musl-dev openssl-dev # Install OpenSSL development packages
+RUN cargo build --release
+
+FROM nginx:1-alpine-slim
+# RUN apk --no-cache add curl
+EXPOSE 80
+# COPY default.conf /etc/nginx/conf.d/
+ARG HTML="index.html"
+ENV URLCHECK="http://localhost"
+COPY --from=build /app/target/release/health_check /usr/local/bin/health_check
+COPY $HTML /usr/share/nginx/html/index.html
+HEALTHCHECK --interval=15s --timeout=2s \ 
+    CMD health_check $URLCHECK || exit 1
+#   CMD curl --fail $URLCHECK || exit 1
+ENTRYPOINT ["nginx"]
+CMD ["-g", "daemon off;"]
